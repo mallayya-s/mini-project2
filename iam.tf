@@ -8,6 +8,7 @@ module "s3-role" {
   trust  = module.iam-trust.policy_json
   policies = {
     "s3-read" = module.s3-policy.read_arn,
+    "s3-write" = module.s3-policy.write_arn,
     # TODO figure out what other policies we need here
   }
 }
@@ -17,7 +18,7 @@ module "iam-trust" {
   principals = [{
     type = "AWS"
     identifiers = [
-      # TODO set the client's iam user arn here to establish trust
+      data.aws_iam_user.challenge.arn
     ]
   }]
 }
@@ -26,4 +27,5 @@ module "s3-policy" {
   source        = "./modules/s3_iam_policy/"
   suffix        = local.suffix
   s3_bucket_arn = module.s3-bucket.arn
+  s3_kms_key    = module.s3-kms-key.key_arn
 }

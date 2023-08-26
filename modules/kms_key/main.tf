@@ -24,8 +24,8 @@ data "aws_iam_policy_document" "encrypt" {
   }
 }
 
-resource "aws_iam_policy" "encrypt" {
-  name   = "challenge-encrypt-${var.suffix}"
+resource "aws_iam_policy" "decrypt" {
+  name   = "challenge-decrypt-${var.suffix}"
   policy = data.aws_iam_policy_document.decrypt.json
 }
 

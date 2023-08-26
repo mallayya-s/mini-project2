@@ -25,6 +25,17 @@ data "aws_iam_policy_document" "s3-read" {
       var.s3_bucket_arn,
     ]
   }
+  
+  statement {
+    sid    = "AllowKMSToDecrypt"
+    effect = "Allow"
+    actions = [
+      "kms:Decrypt",
+    ]
+    resources = [
+      var.s3_kms_key,
+    ]
+  }
 }
 
 resource "aws_iam_policy" "s3-write" {
@@ -42,6 +53,17 @@ data "aws_iam_policy_document" "s3-write" {
     ]
     resources = [
       "${var.s3_bucket_arn}/*",
+    ]
+  }
+  
+    statement {
+    sid    = "AllowKMSToEncryptObjects"
+    effect = "Allow"
+    actions = [
+      "kms:GenerateDataKey",
+    ]
+    resources = [
+      var.s3_kms_key,
     ]
   }
 }

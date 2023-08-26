@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 
 import os
 import json
@@ -13,6 +12,7 @@ class TestS3Permissions:
 
     def setup_class(self):
 
+        print("SETTING ASSUME ROLE PARAMETERS")
         test_data = json.load(open('test_data.json'))
         self.s3_bucket_name = test_data['s3_bucket_name']
 
